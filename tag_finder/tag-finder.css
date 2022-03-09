@@ -1,0 +1,26 @@
+#top {
+    background-color: white;
+    position: sticky;
+    top: 10px;
+}
+
+#progress {
+    text-align: center;
+}
+
+#cheat {
+    background-color: white;
+    height: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.tail-select {
+    width: 100%;
+}
+
+.select-label {
+    font-size: .9em;
+}

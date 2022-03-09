@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <!-- This title is not used. -->
+    <title>Dependency Tag Link Checker</title>
+
+    <!-- Bootstrap 4 -->
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <!-- tail.select -->
+    <!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/css/bootstrap4/tail.select-default.css"-->
+    <!--          integrity="sha384-p3V+oYD+q2INCfbwrpLxvTdnBpvE+goX8vW8/sAeoonkUSVb/3sVFoNiFoKXcvya" crossorigin="anonymous">-->
+
+    <!-- custom-gadget.css -->
+    <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+    <!-- css unique to this gadget -->
+    <link rel="stylesheet" href="dtag-link-checker.css">
+
+    <!-- tail.select -->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/js/tail.select-full.js"-->
+    <!--            integrity="sha384-ozs5aI47I6gb1FASctVJjpzxHC8x06zxkbOHn7yX0xqhoPGpULW7qwAEXHeqa41C"-->
+    <!--            crossorigin="anonymous"></script>-->
+
+    <!-- popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js"
+            integrity="sha256-FT/LokHAO3u6YAZv6/EKb7f2e0wXY3Ff/9Ww5NzT+Bk=" crossorigin="anonymous"></script>
+
+    <!-- jQuery 3 js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <!-- gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+    <!-- custom gadget library -->
+    <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+    <!-- custom Omni CMS API library -->
+    <script type="text/javascript" src="../_lib/omni-api.js"></script>
+
+    <!-- js unique to this gadget -->
+    <script type="text/javascript" src="dtag-link-checker.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+    <div class="col">
+        <h3>Loading...</h3>
+    </div>
+    <div class="col">
+        <div class="spinner-border float-right" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+    <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+        <i class="arrow down"></i>
+    </button>
+    <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+            <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info');">Info</button>
+            <a id="csv-export" role="button" class="btn btn-outline-secondary disabled">Export</a>
+        </div>
+    </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+    <h2 style="display: inline;">Info</h2>
+    <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info');">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <hr/>
+    <p>The Dependency Tag Link Checker Gadget searches for every file that is linked via a dependency tag. Files that
+        are categorized as unlinked are either not used or are linked with a hard coded URL. Ideally all files will be
+        linked via dependency tags to prevent potential broken links.</p>
+    <hr/>
+    <h4>Usage</h4>
+    <p>If you only want to search certain folders on your site, you can choose a subfolder via the "Choose Subfolder"
+        option. Otherwise, the gadget will search the entire site.</p>
+    <hr/>
+
+    <div class="accordion">
+        <div id="accordion-changelog" class="card" style="display: block;">
+            <div id="accordion-changelog-header" class="card-header collapsed" type="button" data-toggle="collapse"
+                 data-target="#accordion-changelog-collapse" aria-expanded="false" aria-controls="accordion-changelog">
+                <span class="ml-1">Changelog</span>
+            </div>
+            <div id="accordion-changelog-collapse" class="collapse" aria-labelledby="accordion-changelog-header"
+                 data-parent="#accordion-changelog" style="">
+                <div class="card-body">
+                    <h5>1.1.2</h5>
+                    <span class="text-muted">5/21/21</span>
+                    <div>Bug fix for non-admin users.</div>
+                    <hr/>
+                    <h5>1.1.1</h5>
+                    <span class="text-muted">5/27/20</span>
+                    <div>Updates to UI.</div>
+                    <hr/>
+                    <h5>1.1.0</h5>
+                    <span class="text-muted">5/12/20</span>
+                    <div>Searches can now be limited to subfolders and narrowing the search improves run time.</div>
+                    <div>Gadget now has better error reporting.</div>
+                    <hr/>
+                    <h4>1.0.0</h4>
+                    <span class="text-muted">9/3/19</span>
+                    <div>Gadget Launched.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <p class="gadget-feedback">Send feedback to <a
+            href="mailto:?subject=Dependency%20Tag%20Link%20Checker%20Gadget%20Feedback">email@domain.com</a>. <!-- TODO EVOLVE: add your own support email -->
+    </p>
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+    <div id="results" class="accordion mb-2">
+
+        <div id="linked" class="card">
+            <div id="linked-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#linked-collapse"
+                 aria-expanded="true" aria-controls="linked-header">
+                <span class="ml-1">Linked Files</span>
+                <span id="linked-count" class="float-right"></span>
+            </div>
+            <div id="linked-collapse" class="collapse" aria-labelledby="linked-header" data-parent="#results">
+                <div class="card-body">
+                    <div id="linked-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse"
+                            data-target="#linked-collapse"
+                            aria-controls="linked-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- end linked accordion -->
+
+        <div id="unlinked" class="card">
+            <div id="unlinked-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#unlinked-collapse"
+                 aria-expanded="true" aria-controls="unlinked-header">
+                <span class="ml-1">Unlinked Files</span>
+                <span id="unlinked-count" class="float-right"></span>
+            </div>
+            <div id="unlinked-collapse" class="collapse" aria-labelledby="unlinked-header" data-parent="#results">
+                <div class="card-body">
+                    <div id="unlinked-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse"
+                            data-target="#unlinked-collapse"
+                            aria-controls="unlinked-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- end unlinked accordion -->
+
+    </div> <!-- end results -->
+
+    <div id="error" class="accordion card mb-2" style="display: none;">
+        <div id="error-header" class="card-header alert-danger" type="button" data-toggle="collapse"
+             data-target="#error-collapse"
+             aria-expanded="true" aria-controls="error-header">
+            <span class="ml-1">Files with Errors</span>
+            <span id="error-count" class="float-right"></span>
+        </div>
+        <div id="error-collapse" class="collapse" aria-labelledby="error-header" data-parent="#error">
+            <div class="card-body">
+                <div class="alert alert-danger">An error occurred when attempting to retrieve information for the
+                    following files.
+                </div>
+                <div id="error-content"></div>
+                <button class="btn btn-block btn-sm btn-light" data-toggle="collapse"
+                        data-target="#error-collapse"
+                        aria-controls="error-collapse">Collapse
+                </button>
+            </div>
+        </div>
+    </div> <!-- end error accordion -->
+
+    <div id="start-app" class="input-group input-group-sm">
+
+        <input id="input-filepath" class="form-control" type="text" placeholder="Choose Subfolder (optional)">
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" onclick="run()">Search</button>
+        </div>
+
+    </div>
+
+    <div id="progress">
+
+        <span id="progress-message">Finding Files...</span>
+        <!--        <span id="progress-count"></span>-->
+        <span>&nbsp;</span>
+        <div id="spinner" class="spinner-border spinner-border-sm spinner-grow-sm" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+        <div class="progress mt-2 d-none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+        </div>
+
+    </div>
+
+    <div style="text-align: center">
+        <span id="final"></span>
+    </div>
+
+</div> <!-- main end -->
+
+<div style="display:none"><!-- ouc:ob --><!-- /ouc:ob --></div>
+</body>
+</html>

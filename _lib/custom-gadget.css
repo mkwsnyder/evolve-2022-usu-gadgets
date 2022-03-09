@@ -1,0 +1,326 @@
+/* ========== DEFAULT ELEMENTS ========== */
+
+body {
+    /*background: transparent;*/ /* I don't remember why this was originally added, but removing it means it doesn't get messed up by a dark theme. */
+    overflow-x: hidden;
+}
+
+/* Better spacing for the small gadget window. */
+hr {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+/* Gives the same spacing as the body padding. */
+p {
+    margin-bottom: 10px;
+}
+
+/* Changes the cursor on disabled buttons. */
+button:disabled {
+    cursor: not-allowed;
+}
+
+/* Creates a chevron-like arrow. Additional rules allow for modifying the orientation. */
+i.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+i.arrow.up {
+    transform: rotate(-135deg);
+}
+
+i.arrow.down {
+    transform: rotate(45deg);
+}
+
+i.arrow.left {
+    transform: rotate(135deg);
+}
+
+i.arrow.right {
+    transform: rotate(-45deg);
+}
+
+/* ========== MAIN, LOADING, HELP, & CHANGELOG ========== */
+
+body > .gadget-panel {
+    padding: 10px;
+}
+
+body > div.gadget-panel {
+    font-size: .85em;
+    min-height: 100%;
+    transition: .25s;
+    transition-timing-function: cubic-bezier(0.01, 0.88, 0.36, 1);
+    padding: 10px;
+    position: absolute;
+    width: 100%;
+    /*overflow-x: hidden;*/
+}
+
+body > .gadget-panel .close {
+    padding: .65rem;
+}
+
+body > #file-browser.gadget-panel .close {
+    margin-top: -5px;
+    padding: .4rem;
+}
+
+/* Prevents the scrollbar from showing while the gadget loads. */
+#loading {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#loading h3 {
+    display: inline;
+}
+
+.gadget-feedback {
+    color: #6c757d; /* muted color */
+    text-align: center;
+}
+
+#help h2, #file-browser h5 {
+    display: inline;
+}
+
+#help .accordion .card-body ul {
+    padding-left: 15px;
+}
+
+#accordion-changelog {
+    display: block;
+}
+
+/* ========== GADGET TOOLBAR ========== */
+
+/* Puts the trigger for the toolbar in the top right corner. */
+#gadget-toolbar-container {
+    position: fixed;
+    height: 25px;
+    width: 31px;
+    right: 0;
+    top: -10px;
+    transition: .25s;
+    transition-timing-function: cubic-bezier(0.01, 0.88, 0.36, 1);
+    z-index: 100;
+}
+
+/* CSS driven movement. */
+#gadget-toolbar-container:focus-within {
+    height: 0;
+    width: 0;
+    top: 42px;
+}
+
+/* Style for the trigger itself and prevents the normal Bootstrap 4 hover changes. */
+#gadget-toolbar-trigger {
+    /*pointer-events: none;*/
+    position: fixed;
+    height: 25px; /* not inherit, otherwise messes with transition */
+    width: 31px;
+    right: 0;
+    top: 0;
+    border-radius: 0 0 0 .2rem;
+    opacity: .6;
+    z-index: 9;
+}
+
+/* Makes the toolbar trigger button opaque on hover. */
+#gadget-toolbar-trigger:hover {
+    opacity: 1;
+}
+
+/* Makes the arrow appear correctly for the gadget-toolbar-trigger */
+#gadget-toolbar-trigger i.arrow.down {
+    border-color: whitesmoke;
+    transform: translate(0, -6px) rotate(45deg);
+}
+
+/* Puts the toolbar offscreen. */
+#gadget-toolbar {
+    position: absolute;
+    background: white;
+    min-width: max-content;
+    top: -42px;
+    right: 0;
+    padding: 5px;
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #bbb;
+    border-bottom-left-radius: .2rem;
+    z-index: 10;
+}
+
+/* Brings the gadget toolbar into view. */
+.gadget-toolbar-open {
+    top: 0 !important;
+}
+
+/* Alternative style for sidebar gadgets. */
+#gadget-toolbar-sidebar {
+    display: flex;
+    padding: 10px 10px 0px 10px;
+}
+
+/* ========== GADGET MODAL ========== */
+
+/* Default is inline 13px for some reason. */
+#gadget-modal {
+    padding-right: 0 !important;
+}
+
+#gadget-modal .modal-header {
+    padding: .5rem 1rem;
+}
+
+/* Helps the modal fit. */
+#gadget-modal .modal-body {
+    font-size: .9em;
+}
+
+#gadget-modal button.close {
+    margin: -.75rem -1rem -1rem auto;
+}
+
+#gadget-modal .modal-footer {
+    padding: .5rem;
+}
+
+/* ========== FILE BROWSER ========== */
+
+#file-browser .top {
+    background: white;
+    margin-top: -10px;
+    padding-top: 10px;
+    position: sticky;
+    top: 0;
+}
+
+#file-browser .folder > .header, #file-browser .page {
+    cursor: pointer;
+    padding: 0 0 2px .5rem;
+}
+
+#file-browser .folder > .header:before {
+    content: '📁';
+    margin-right: 5px;
+}
+
+#file-browser .folder.open > .header:before {
+    content: '📂';
+}
+
+#file-browser .folder.open > .header {
+    font-weight: bold;
+}
+
+#file-browser .folder > .folder-contents {
+    background-color: rgba(0,0,0,.1);
+    border-radius: .35rem;
+    display: none;
+    height: 0;
+    overflow-wrap: break-word;
+}
+
+#file-browser .folder > .header:hover, #file-browser .page:hover {
+    background-color: rgba(135, 206, 250, 0.5);
+}
+
+#file-browser .folder > .header.selected, #file-browser .page.selected {
+    background-color: lightskyblue;
+}
+
+#file-browser .page:before {
+    content: '📄';
+    margin-right: 5px;
+}
+
+#file-browser .page.current-page:before {
+    content: '📝';
+}
+
+#file-browser .folder.open > .folder-contents {
+    display: block;
+    height: auto;
+    margin: .25rem 0 .25rem .25rem;
+}
+
+#file-browser .folder-contents > .folder:first-child > .header, #file-browser .folder.open > .folder-contents > .page:first-child {
+    border-top-left-radius: .35rem;
+    border-top-right-radius: .35rem;
+}
+
+#file-browser .folder-contents > .folder:last-child > .header, #file-browser .folder.open > .folder-contents > .page:last-child {
+    border-bottom-left-radius: .35rem;
+    border-bottom-right-radius: .35rem;
+}
+
+/* ========== ID's ========== */
+
+/* ========== CLASSES ========== */
+
+/* Hides an element of the screen on the right. */
+.hide-right {
+    transform: translate(125%, 0);
+    overflow-y: hidden;
+    height: 0;
+}
+
+/* Hides an element of the screen on the left. */
+.hide-left {
+    transform: translate(-125%, 0);
+    overflow-y: hidden;
+    height: 0;
+}
+
+/* Makes tail.select styling work on Chrome. */
+.select-label {
+    background-position: center right .75rem;
+}
+
+/* Shrinks padding for the content region of accordions. */
+.card-body {
+    padding: .75rem;
+}
+
+/* Gives the btn-light a border to match the Bootstrap 4 accordion border. */
+.btn-light {
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+/* DEPRECATED. Use label option below. Makes the text align for slider style checkboxes. */
+.custom-control.custom-switch span {
+    margin-left: -6px;
+    line-height: 24px;
+}
+
+/* Makes the text align for slider style checkboxes. */
+.custom-control.custom-switch label {
+    line-height: 24px;
+}
+
+/* Prevents highlighting of text. */
+.no-highlight, .accordion .card-header, #loading {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+/* Forces the cursor to remain a pointer on hover.  */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Disabled inputs, e.g. checkboxes, will have the not-allowed cursor. */
+.custom-control-input:disabled ~ .custom-control-label, .custom-control-input[disabled] ~ .custom-control-label {
+    cursor: not-allowed;
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <!-- This title is not used. -->
+  <title>Access Group Finder</title>
+
+  <!-- Bootstrap 4 css -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		  rel="stylesheet"
+		  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+		  crossorigin="anonymous">
+
+  <!-- tail.select css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/css/bootstrap4/tail.select-default.css"
+		  integrity="sha384-p3V+oYD+q2INCfbwrpLxvTdnBpvE+goX8vW8/sAeoonkUSVb/3sVFoNiFoKXcvya" crossorigin="anonymous">
+
+  <!-- custom-gadget.css -->
+  <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+  <!-- css unique to this gadget -->
+  <link rel="stylesheet" href="access-group-finder.css">
+
+  <!-- tail.select js -->
+  <script src="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/js/tail.select-full.js"
+		  integrity="sha384-ozs5aI47I6gb1FASctVJjpzxHC8x06zxkbOHn7yX0xqhoPGpULW7qwAEXHeqa41C"
+		  crossorigin="anonymous"></script>
+
+  <!-- popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js"
+		  integrity="sha256-FT/LokHAO3u6YAZv6/EKb7f2e0wXY3Ff/9Ww5NzT+Bk=" crossorigin="anonymous"></script>
+
+  <!-- jQuery 3 -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+		  crossorigin="anonymous"></script>
+
+  <!-- Bootstrap 4 js -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		  crossorigin="anonymous"></script>
+
+  <!-- gadgetlib.js -->
+  <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+  <!-- custom gadget library -->
+  <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+  <!-- custom OU Campus API library -->
+  <script type="text/javascript" src="../_lib/omni-api.js"></script>
+
+  <!-- js unique to this gadget -->
+  <script type="text/javascript" src="access-group-finder.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+  <div class="col">
+	<h3>Loading...</h3>
+  </div>
+  <div class="col">
+	<div class="spinner-border float-right" role="status">
+	  <span class="sr-only">Loading...</span>
+	</div>
+  </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+  <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+	<i class="arrow down"></i>
+  </button>
+  <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+	<div class="btn-group btn-group-sm">
+	  <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+	  <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info');">Info</button>
+	  <a id="csv-export" role="button" class="btn btn-outline-secondary disabled">Export</a>
+	</div>
+  </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+  <h2>Info</h2>
+  <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info');">
+	<span aria-hidden="true">&times;</span>
+  </button>
+  <hr/>
+
+  <p>The Access Group Finder Gadget lets you search for files and folders with a given access group across multiple sites.</p>
+
+  <hr/>
+
+  <h4>Usage</h4>
+  <p>Select an access group from the first dropdown and any desired sites from the second dropdown (the site you're currently on is selected by default. Additionally, there are options to search for files, folders, or both.</p>
+
+  <hr/>
+
+  <div class="accordion">
+	<div id="accordion-changelog" class="card" style="display: block;">
+	  <div id="accordion-changelog-header" class="card-header collapsed" type="button" data-toggle="collapse"
+			  data-target="#accordion-changelog-collapse" aria-expanded="false" aria-controls="accordion-changelog">
+		<span class="ml-1">Changelog</span>
+	  </div>
+	  <div id="accordion-changelog-collapse" class="collapse" aria-labelledby="accordion-changelog-header"
+			  data-parent="#accordion-changelog" style="">
+		<div class="card-body">
+		  <h4>1.0.0</h4>
+		  <span class="text-muted">6/16/21</span>
+		  <div>Gadget Launched.</div>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <hr/>
+  <p class="gadget-feedback">Send feedback to <a
+		  href="mailto:?subject=User%20Group%20Manager%20Gadget%20Feedback">email@domain.com</a>. <!-- TODO EVOLVE: add your own support email -->
+  </p>
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+  <select id="select-group" multiple></select>
+  <select id="select-sites" multiple></select>
+
+  <div id="run" class="row mb-2">
+
+	<div class="col-8">
+
+	  <div class="custom-control custom-switch update-params">
+		<input id="checkbox-folders" type="checkbox" class="custom-control-input" checked>
+		<label class="custom-control-label trigger-user no-highlight" for="checkbox-folders">Include Folders</label>
+	  </div>
+
+	  <div class="custom-control custom-switch update-params">
+		<input id="checkbox-files" type="checkbox" class="custom-control-input">
+		<label class="custom-control-label trigger-user no-highlight" for="checkbox-files">Include Files</label>
+	  </div>
+
+	</div>
+
+	<div class="col-4">
+	  <button id="submit" class="btn btn-sm btn-outline-primary float-right" onclick="run()">Submit</button>
+	</div>
+  </div>
+
+  <div id="progress" class="mb-2 d-none">
+	<div class="progress mb-1">
+	  <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+			  role="progressbar"
+			  style="width: 0" aria-valuenow="0" aria-valuemin="0"
+			  aria-valuemax="100"></div>
+	</div>
+	<span id="live-count">Operations: / </span>
+	<span>&nbsp;</span>
+	<div class="spinner-border spinner-border-sm spinner-grow-sm"
+			role="status">
+	  <span class="sr-only">Loading...</span>
+	</div>
+  </div>
+
+  <div id="member-container" class="accordion mb-2 d-none ">
+
+	<div id="accordion-members" class="card">
+	  <div id="accordion-members-header" class="card-header" type="button" data-toggle="collapse"
+			  data-target="#accordion-members-collapse" aria-expanded="true"
+			  aria-controls="accordion-members-content">
+		<span>Group Members</span>
+		<span id="accordion-members-count" class="float-right">(X)</span>
+	  </div>
+	  <div id="accordion-members-collapse" class="collapse" aria-labelledby="accordion-members-header"
+			  data-parent="#accordion-members">
+		<div class="card-body">
+		  <div id="accordion-members-content">
+			<div id="member-list"></div>
+		  </div>
+		  <button class="btn btn-block btn-sm btn-light mt-2" data-toggle="collapse"
+				  data-target="#accordion-members-collapse" aria-controls="accordion-members-collapse">Collapse
+		  </button>
+		</div>
+	  </div>
+	</div>
+
+  </div>
+
+  <div id="empty-container" class="accordion mb-2 d-none">
+
+	<div id="accordion-empty" class="card">
+	  <div id="accordion-empty-header" class="card-header" type="button" data-toggle="collapse"
+			  data-target="#accordion-empty-collapse" aria-expanded="true"
+			  aria-controls="accordion-empty-content">
+		<span>Sites Without Results</span>
+		<span id="accordion-empty-count" class="float-right">(X)</span>
+	  </div>
+	  <div id="accordion-empty-collapse" class="collapse" aria-labelledby="accordion-empty-header"
+			  data-parent="#accordion-empty">
+		<div class="card-body">
+		  <div id="accordion-empty-content"></div>
+		  <button class="btn btn-block btn-sm btn-light mt-2" data-toggle="collapse"
+				  data-target="#accordion-empty-collapse" aria-controls="accordion-empty-collapse">Collapse
+		  </button>
+		</div>
+	  </div>
+	</div>
+
+  </div>
+
+  <div id="accordions" class="accordion">
+
+</div> <!-- main end -->
+
+<div style="display:none">
+  <ouc:ob></ouc:ob>
+</div>
+</body>
+</html>

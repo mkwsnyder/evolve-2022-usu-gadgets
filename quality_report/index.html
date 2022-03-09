@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <!-- This title is not used. -->
+    <title>Quality Report</title>
+
+    <!-- Bootstrap 4 -->
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <!-- custom-gadget.css -->
+    <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+    <!-- css unique to this gadget -->
+    <link rel="stylesheet" href="quality-report.css">
+
+    <!-- popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+
+    <!-- jQuery 3 js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <!-- gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+    <!-- custom-gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+    <!-- custom Omni CMS API library -->
+    <script type="text/javascript" src="../_lib/omni-api.js"></script>
+
+    <!-- js unique to this gadget -->
+    <script type="text/javascript" src="quality-report.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+    <div class="col">
+        <h3>Loading...</h3>
+    </div>
+    <div class="col">
+        <div class="spinner-border float-right" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+    <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+        <i class="arrow down"></i>
+    </button>
+    <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+            <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info');">Info</button>
+            <a id="csv-export" role="button" class="btn btn-outline-secondary disabled">Export</a>
+        </div>
+    </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+    <h2>Info</h2>
+    <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info');">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <hr/>
+    <p>The Quality Report Gadget finds all pages that have problems with either their title or description. Pages with
+        these issues are not <a href="https://en.wikipedia.org/wiki/Search_engine_optimization">Search Engine Optimized
+            (SEO)</a> and are less likely to show up in search engine results such as Google.</p>
+    <hr/>
+
+    <h4>Usage</h4>
+    <p>If you only want to search certain folders on your site, you can choose a subfolder via the "Choose Subfolder"
+        option. Otherwise, the gadget will search the entire site.</p>
+    <hr/>
+
+    <h4>Page Titles</h4>
+    <p>The page title displays in the tab at the top of your web browser and as the URL text in Google searches.
+        The title should immediately convey the purpose of the page.</p>
+    <p>The title format we use at USU is as follows: <strong>Page Name | Department</strong>. Omni CMS automatically
+        adds <strong>| USU</strong> to the end of the title as well. An example of a good title is the following:
+        <strong>Content Options | IT Web</strong></p>
+    <hr/>
+
+    <h4>Page Descriptions</h4>
+    <p>The purpose of the page description is to quickly inform users what the page is about. The description also
+        shows up beneath the URL in Google searches.</p>
+    <p>A good description should be clear, concise, and about two or three sentences long. Specifically, they should
+        have no fewer than 75 characters and no more than 320 characters.</p>
+
+    <hr/>
+
+    <div class="accordion">
+        <div id="accordion-changelog" class="card" style="display: block;">
+            <div id="accordion-changelog-header" class="card-header collapsed" type="button" data-toggle="collapse"
+                 data-target="#accordion-changelog-collapse" aria-expanded="false" aria-controls="accordion-changelog">
+                <span class="ml-1">Changelog</span>
+            </div>
+            <div id="accordion-changelog-collapse" class="collapse" aria-labelledby="accordion-changelog-header"
+                 data-parent="#accordion-changelog" style="">
+                <div class="card-body">
+                    <h5>1.2.2</h5>
+                    <span class="text-muted">12/15/21</span>
+                    <div>Updated upper character limit from 255 to 320 characters.</div>
+                    <hr/>
+                    <h5>1.2.1</h5>
+                    <span class="text-muted">5/27/20</span>
+                    <div>Updates to UI.</div>
+                    <hr/>
+                    <h5>1.2.0</h5>
+                    <span class="text-muted">5/15/20</span>
+                    <div>Searches can now be limited to subfolders and narrowing the search improves run time.</div>
+                    <div>Gadget now has better error reporting.</div>
+                    <hr/>
+                    <h5>1.1.1</h5>
+                    <span class="text-muted">9/3/19</span>
+                    <div>Cleaned and optimized code.</div>
+                    <hr/>
+                    <h5>1.1.0</h5>
+                    <span class="text-muted">6/11/19</span>
+                    <div>Updated export feature and added the toolbar/dropdown.</div>
+                    <hr/>
+                    <h4>1.0.0</h4>
+                    <span class="text-muted">4/22/19</span>
+                    <div>Gadget Launched.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <p class="gadget-feedback">Send feedback to <a
+            href="mailto:?subject=Quality%20Report%20Gadget%20Feedback">email@domain.com</a>. <!-- TODO EVOLVE: add your own support email --></p>
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+    <div id="quality-accordion" class="accordion mb-2">
+
+        <div class="card">
+            <div id="title-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#title-collapse" aria-expanded="true" aria-controls="title-content">
+                <span>No Title</span>
+                <span id="title-count" class="count float-right"></span>
+            </div>
+            <div id="title-collapse" class="collapse" aria-labelledby="title-header" data-parent="#quality-accordion">
+                <div class="card-body">
+                    <div id="title-success" class="alert alert-success">
+                        No missing titles
+                    </div>
+                    <div id="title-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse" data-target="#title-collapse"
+                            aria-controls="title-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- card end -->
+
+        <div class="card">
+            <div id="empty-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#empty-collapse" aria-expanded="true" aria-controls="empty-content">
+                <span>No Description</span>
+                <span id="empty-count" class="count float-right"></span>
+            </div>
+            <div id="empty-collapse" class="collapse" aria-labelledby="empty-header" data-parent="#quality-accordion">
+                <div class="card-body">
+                    <div id="empty-success" class="alert alert-success">
+                        No missing descriptions
+                    </div>
+                    <div id="empty-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse" data-target="#empty-collapse"
+                            aria-controls="empty-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- card end -->
+
+        <div class="card">
+            <div id="short-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#short-collapse" aria-expanded="true" aria-controls="short-content">
+                <span>Short Description</span>
+                <span id="short-count" class="count float-right"></span>
+            </div>
+            <div id="short-collapse" class="collapse" aria-labelledby="short-header" data-parent="#quality-accordion">
+                <div class="card-body">
+                    <div class="alert alert-info" role="alert">
+                        Pages with a description that is fewer than 75 characters.
+                    </div>
+                    <div id="short-success" class="alert alert-success">
+                        No short descriptions
+                    </div>
+                    <div id="short-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse" data-target="#short-collapse"
+                            aria-controls="short-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- card end -->
+
+        <div class="card">
+            <div id="long-header" class="card-header" type="button" data-toggle="collapse"
+                 data-target="#long-collapse" aria-expanded="true" aria-controls="long-content">
+                <span>Long Description</span>
+                <span id="long-count" class="count float-right"></span>
+            </div>
+            <div id="long-collapse" class="collapse" aria-labelledby="long-header" data-parent="#quality-accordion">
+                <div class="card-body">
+                    <div class="alert alert-info" role="alert">
+                        Pages with a description that is more than 320 characters.
+                    </div>
+                    <div id="long-success" class="alert alert-success">
+                        No long descriptions
+                    </div>
+                    <div id="long-content"></div>
+                    <button class="btn btn-block btn-sm btn-light" data-toggle="collapse" data-target="#long-collapse"
+                            aria-controls="long-collapse">Collapse
+                    </button>
+                </div>
+            </div>
+        </div> <!-- card end -->
+
+    </div> <!-- quality-accordion end -->
+
+    <div id="error" class="accordion card mb-2" style="display: none;">
+        <div id="error-header" class="card-header alert-danger" type="button" data-toggle="collapse"
+             data-target="#error-collapse"
+             aria-expanded="true" aria-controls="error-header">
+            <span class="ml-1">Files with Errors</span>
+            <span id="error-count" class="float-right"></span>
+        </div>
+        <div id="error-collapse" class="collapse" aria-labelledby="error-header" data-parent="#error">
+            <div class="card-body">
+                <div class="alert alert-danger">An error occurred when attempting to retrieve information for the
+                    following files.
+                </div>
+                <div id="error-content"></div>
+                <button class="btn btn-block btn-sm btn-light" data-toggle="collapse"
+                        data-target="#error-collapse"
+                        aria-controls="error-collapse">Collapse
+                </button>
+            </div>
+        </div>
+    </div> <!-- end error accordion -->
+
+    <div id="start-app" class="input-group input-group-sm">
+
+        <input id="input-filepath" class="form-control" type="text" placeholder="Choose Subfolder (optional)">
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" onclick="run()">Search</button>
+        </div>
+
+    </div>
+
+    <div id="progress" class="text-center d-none">
+
+        <div id="progress-text" class="d-inline-block mb-2"></div>
+        <div class="spinner-border spinner-border-sm spinner-grow-sm d-inline-block ml-2" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+    </div>
+
+    <div id="grand-total-container" class="d-none">
+        <span>Total Pages:</span>
+        <span id="grand-total">0</span>
+        <span>&nbsp;</span>
+        <div id="spinner" class="spinner-border spinner-border-sm spinner-grow-sm" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+</div> <!-- main end -->
+
+<div style="display:none"><!-- ouc:ob --><!-- /ouc:ob --></div>
+</body>
+</html>

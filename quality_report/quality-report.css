@@ -1,0 +1,9 @@
+.alert.alert-success {
+    display: none;
+    text-align: center;
+}
+
+#grand-total-container {
+    /*display: none;*/
+    text-align: center;
+}

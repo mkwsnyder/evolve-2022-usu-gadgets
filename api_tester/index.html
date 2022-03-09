@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <!-- This title is not used. -->
+    <title>API Tester</title>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+
+    <!-- tail.select -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/css/bootstrap4/tail.select-default.css"
+          integrity="sha384-p3V+oYD+q2INCfbwrpLxvTdnBpvE+goX8vW8/sAeoonkUSVb/3sVFoNiFoKXcvya" crossorigin="anonymous">
+
+    <!-- custom-gadget.css -->
+    <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+    <!-- css unique to this gadget -->
+    <link rel="stylesheet" href="api-tester.css">
+
+    <!-- tail.select -->
+    <script src="https://cdn.jsdelivr.net/npm/tail.select@0.5.14/js/tail.select-full.js"
+            integrity="sha384-ozs5aI47I6gb1FASctVJjpzxHC8x06zxkbOHn7yX0xqhoPGpULW7qwAEXHeqa41C"
+            crossorigin="anonymous"></script>
+
+    <!-- popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+
+    <!-- jQuery 3 js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <!-- gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+    <!-- custom-gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+    <!-- js unique to this gadget -->
+    <script type="text/javascript" src="api-tester.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+    <div class="col">
+        <h3 style="display: inline;">Loading...</h3>
+    </div>
+    <div class="col">
+        <div class="spinner-border float-right" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+    <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+        <i class="arrow down"></i>
+    </button>
+    <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+            <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info')">Info</button>
+        </div>
+    </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+    <h2 style="display: inline;">Info</h2>
+    <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <hr/>
+
+    <p>The API Tester can take dynamic parameters to quickly work out how different API endpoints work. The results of
+        the API Calls are displayed in the dev console for your web browser. <a
+                href="https://developers.omniupdate.com/" target="_blank">The documentation for the Omni CMS API can be
+            found on their website</a>.</p>
+    <hr/>
+    <h4>Usage</h4>
+    <p><strong>HTTP Method &amp; Endpoint</strong> The dropdown has options for the four <a
+            href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods" target="_blank">HTTP methods</a> that are
+        used in the Omni CMS API. The text entry is for the endpoint you are testing (i.e. /files/list).</p>
+    <p><strong>&lt; &gt; Arrows</strong> The back and forward arrows are used to navigate previous API calls that you
+        have made.</p>
+    <p><strong>Parameters</strong> Each parameter has two text boxes that function as a key-value pair. The first is the
+        key defined by the API documentation. The second is for the value.</p>
+    <p><strong>Plus &amp; Minus Buttons</strong> The + button adds another parameter to the list. The - button removes
+        the parameter it's attached to.</p>
+    <p><strong>Site Slider</strong> If enabled the "site" parameter is automatically set to the current site in OU
+        Campus.</p>
+    <hr/>
+    <p style="text-align: center">Send feedback to <a href="mailto:">email@domain.com</a>. <!-- TODO EVOLVE: add your own support email --></p>
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+    <label>Endpoint</label>
+    <div class="input-group input-group-sm mb-2">
+        <div class="input-group-prepend input-group-sm">
+            <select id="type" class="custom-select" title="Network request type"
+                    style="border-radius: .25em 0 0 .25em;">
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="DELETE">DELETE</option>
+            </select>
+        </div>
+        <input id="endpoint" type="text" class="form-control enter-submit" title="API Endpoint"
+               placeholder="API Endpoint" value="/">
+        <div class="input-group-append">
+            <button id="prev" class="btn btn-outline-secondary" type="button" title="Go back in request history"
+                    onclick="loadHistory(true)" disabled>&lt;
+            </button>
+            <button id="next" class="btn btn-outline-secondary" type="button" title="Go forward in request history"
+                    onclick="loadHistory(false)" disabled>
+                &gt;
+            </button>
+        </div>
+    </div>
+
+    <label>Parameters</label>
+    <div id="params">
+    </div>
+
+    <button id="add-new-param" class="btn btn-block btn-sm btn-outline-secondary" onclick="pushPopParam()"
+            style="display: none;">Add New Parameter
+    </button>
+
+    <div class="row mt-2">
+        <div class="col-4 custom-col">
+
+            <div class="custom-control custom-switch" title="Use the current site">
+                <input id="checkbox-site" type="checkbox" class="custom-control-input">
+                <label class="custom-control-label no-highlight" for="checkbox-site">Site</label>
+            </div>
+
+        </div>
+
+        <div class="col-8 custom-col">
+            <div class="float-right">
+                <button class="btn btn-sm btn-outline-primary float-right" onclick="customRequest()">Make Request
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
+</div> <!-- main end -->
+<div style="display: none;">
+    <div id="clone-param" class="input-group input-group-sm mb-2 enter-submit">
+        <input id="param-key-x" class="form-control enter-submit" type="text" title="Parameter key">
+        <div class="input-group-prepend input-group-append">
+            <span class="input-group-text">:</span>
+        </div>
+        <input id="param-val-x" class="form-control enter-submit" type="text" title="Parameter value">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" title="Remove this parameter" onclick="">-</button>
+            <button class="btn btn-outline-secondary" type="button" title="Add another parameter"
+                    onclick="pushPopParam()">+
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--
+The following hidden div is only needed if you'll be editing your gadget in
+Omni CMS's source code editor. Omni CMS automatically adds a DirectEdit link
+to HTML files that you edit in Omni CMS. This div hides the DirectEdit link.
+-->
+<div style="display:none"><!-- ouc:ob --><!-- /ouc:ob --></div>
+</body>
+</html>

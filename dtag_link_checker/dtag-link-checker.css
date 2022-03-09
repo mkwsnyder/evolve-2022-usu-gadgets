@@ -1,0 +1,15 @@
+#results {
+    overflow-x: hidden;
+}
+
+#progress {
+    display: none;
+    text-align: center;
+}
+
+.subs-container {
+    border-left: solid #6c757d;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin-top: 5px;
+}

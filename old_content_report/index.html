@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <!-- This title is not used. -->
+    <title>Old Content Report</title>
+
+    <!-- Bootstrap 4 css -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css"
+          integrity="sha384-hYpyGyCCu/tFB5o1MzmL6lSYxsdq/0Eg1p2aUHwlNZLPL0iIT8k9U4T2iU0dXq+W" crossorigin="anonymous">
+
+    <link href="../_external_lib/bootstrap.min.css">
+
+    <!-- custom-gadget.css -->
+    <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+    <!-- css unique to this gadget -->
+    <!--    <link rel="stylesheet" href="old-content-report.css">-->
+
+    <!-- popper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.4.0/umd/popper.min.js"
+            integrity="sha256-FT/LokHAO3u6YAZv6/EKb7f2e0wXY3Ff/9Ww5NzT+Bk=" crossorigin="anonymous"></script>
+
+    <!-- jQuery 3 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap 4 js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+
+    <!-- Bootstrap Datepicker js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"
+            integrity="sha384-T6IN6AvPLUXGcIHk/blJvXNvr9Ob/8zupL/zpOn9ZjxVb0DvgyjoG0+T6ojcYkTu"
+            crossorigin="anonymous"></script>
+
+    <!-- gadgetlib.js -->
+    <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+    <!-- custom gadget library -->
+    <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+    <!-- custom Omni CMS API library -->
+    <script type="text/javascript" src="../_lib/omni-api.js"></script>
+
+    <!-- js unique to this gadget -->
+    <script type="text/javascript" src="old-content-report.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+    <div class="col">
+        <h3>Loading...</h3>
+    </div>
+    <div class="col">
+        <div class="spinner-border float-right" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+    <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+        <i class="arrow down"></i>
+    </button>
+    <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+            <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info');">Info</button>
+            <a id="csv-export" role="button" class="btn btn-outline-secondary disabled">Export</a>
+        </div>
+    </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+    <h2>Info</h2>
+    <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info');">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <hr/>
+
+    <p>The Old Content Report Gadget lets you search for pages that haven't been updated in a while as a way to manage
+        and keep old content updated. It is recommended to evaluate a page if it has not been updated for at least six
+        months.</p>
+
+    <hr/>
+
+    <h4>Usage</h4>
+    <p>If you only want to search certain folders on your site, you can choose a subfolder via the "Choose Subfolder"
+        option. Otherwise, the gadget will search the entire site.</p>
+    <p>Once the information has loaded, you can choose to filter by when pages were last modified (page content was
+        changed), or last published (via the green publish button).</p>
+
+    <hr/>
+
+    <div class="accordion">
+        <div id="accordion-changelog" class="card" style="display: block;">
+            <div id="accordion-changelog-header" class="card-header collapsed" type="button" data-toggle="collapse"
+                 data-target="#accordion-changelog-collapse" aria-expanded="false" aria-controls="accordion-changelog">
+                <span class="ml-1">Changelog</span>
+            </div>
+            <div id="accordion-changelog-collapse" class="collapse" aria-labelledby="accordion-changelog-header"
+                 data-parent="#accordion-changelog" style="">
+                <div class="card-body">
+                    <h5>1.1.0</h5>
+                    <span class="text-muted">5/27/20</span>
+                    <div>Results can now be narrowed down to a specific subdirectory. The user now also has more control
+                        over filtering the results to their needs. Fixed a bug regarding the getting the correct dates
+                        for when a file is published.
+                    </div>
+                    <hr/>
+                    <h4>1.0.0</h4>
+                    <span class="text-muted">7/18/19</span>
+                    <div>Gadget Launched.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    <p class="gadget-feedback">Send feedback to <a
+            href="mailto:?subject=Old%20Content%20Report%20Gadget%20Feedback">email@domain.com</a>. <!-- TODO EVOLVE: add your own support email --></p>
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+    <div id="start-app" class="input-group input-group-sm">
+
+		<input id="input-filepath" class="form-control" type="text" placeholder="Choose Subfolder (optional)">
+
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" onclick="run()">Search</button>
+        </div>
+
+    </div>
+
+    <div id="progress" class="text-center d-none">
+
+        <div id="progress-text" class="d-inline-block mb-2"></div>
+        <div class="spinner-border spinner-border-sm spinner-grow-sm d-inline-block ml-2" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+
+        <div class="progress d-none">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
+        </div>
+
+    </div>
+
+    <div id="post-search" class="mb-2 d-none">
+
+        <div class="input-group input-group-sm mb-2">
+
+            <div class="input-group-prepend">
+                <div class="input-group-text">Show pages</div>
+            </div>
+
+            <select id="select-type" class="custom-select update-on">
+                <option value="modified" selected>modified</option>
+                <option value="published">published</option>
+            </select>
+
+            <div class="input-group-prepend input-group-append">
+                <div class="input-group-text">before</div>
+            </div>
+
+            <input type="text" class="form-control date-picker" placeholder="today">
+
+        </div>
+
+        <div class="input-group input-group-sm">
+
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Sort by</span>
+                </div>
+                <select id="select-sort" class="custom-select update-on">
+                    <option value="old" selected>Oldest to Newest</option>
+                    <option value="new">Newest to Oldest</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="my-list"></div>
+
+    <div id="results-end" class="text-muted text-center d-none">End of results</div>
+
+    <!--    <div id="no-old-content" class="alert alert-success text-center d-none">-->
+    <!--        Your site is up to date!-->
+    <!--    </div>-->
+
+</div><!-- main end -->
+
+<div style="display:none"><!-- ouc:ob --><!-- /ouc:ob --></div>
+</body>
+</html>
