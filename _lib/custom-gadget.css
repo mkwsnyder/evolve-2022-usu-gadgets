@@ -86,11 +86,11 @@ body > #file-browser.gadget-panel .close {
     text-align: center;
 }
 
-#help h2, #file-browser h5 {
+#info h2, #file-browser h5 {
     display: inline;
 }
 
-#help .accordion .card-body ul {
+#info .accordion .card-body ul {
     padding-left: 15px;
 }
 
