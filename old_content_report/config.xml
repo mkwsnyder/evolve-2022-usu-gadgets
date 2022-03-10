@@ -2,7 +2,7 @@
 
 <config>
     <!-- The title that appears in the gadget's title bar. -->
-    <entry key="title" label="Title">z_Old Content Report</entry>
+    <entry key="title" label="Title">Old Content Report</entry>
     
     <!-- The URL of an icon image. -->
     <entry key="icon" private="true">https://templateresources-staging.ou.usu.edu/_resources/gadgets/old_content_report/icon.svg</entry>
