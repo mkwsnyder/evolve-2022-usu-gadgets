@@ -6,9 +6,10 @@ These are (most) of the gadgets that we presented for the Evolve 2022 conference
 ### A couple of things to note:
 
 - The following gadgets were shown but require some bug fixes/polish before we can release them; they'll be in this repo soon™
-    - Multi-Site Search
-    - User Manager
-- The gadgetlib.js included in this repo has a single line modified that's used by our gadgets; the gadgets included in this repo require this change. All I've done is add a function call at line 280.
+    - [ ] Multi-Site Search
+    - [ ] User Manager
+- The `z_clone` folder is the gadget template. It's what I copy/paste whenever I'm creating a new gadget.
+- The `gadgetlib.js` included in this repo has a single line modified that's used by our gadgets; the gadgets included in this repo require this change. All I've done is add a function call at line 280.
 - The following changes should be made to the files before you use them (you can quickly find all these items by searching for "TODO EVOLVE" in the files):
     - All the `index.html` files have a spot for a support email, set this to something relevant for you/your team
     - `omni-api.js`
