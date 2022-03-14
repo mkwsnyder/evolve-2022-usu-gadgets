@@ -5,13 +5,13 @@
     <entry key="title" label="Title">Tag Finder</entry>
 
     <!-- The URL of an icon image. -->
-    <entry key="icon" private="true">https://templateresources-staging.ou.usu.edu/_resources/gadgets/tag_finder/icon.svg</entry>
+    <entry key="icon" private="true"></entry> <!-- TODO EVOLVE: set this field to the absolute path (full URL) of where the icon.svg will be published -->
 
     <!-- The description that appears in the gadget chooser. -->
     <entry key="description" private="true">Searches for files and folders that have a particular tag associated with them.</entry>
 
     <!-- The URL of a thumbnail image to appear in the gadget chooser. -->
-    <entry key="thumbnail" private="true">https://templateresources-staging.ou.usu.edu/_resources/gadgets/tag_finder/icon.svg</entry>
+    <entry key="thumbnail" private="true"></entry> <!-- TODO EVOLVE: set this field to the absolute path (full URL) of where the icon.svg will be published -->
 
     <!-- Current supported types are "dashboard" and "sidebar". If you want your gadget to appear
          in both places, enter "dashboard, sidebar". -->

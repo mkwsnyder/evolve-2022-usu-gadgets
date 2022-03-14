@@ -15,6 +15,7 @@ These are (most) of the gadgets that we presented for the Evolve 2022 conference
     - `omni-api.js`
         - This file also has a spot for the support email
         - This file has fallback settings for `gadget.account` in the constructor
+    - Every `config.xml` file has two spots to put the absolute URL for the `icon.svg` for each gadget
 
 ---
 
