@@ -624,7 +624,7 @@ function displayUser(user) {
     document.querySelector('#user-created-days').innerText = currentUser.days_since_created + (currentUser.days_since_created === 1 ? ' day ago' : ' days ago');
     document.querySelector('#user-saves').innerText = 'Total Saves: ' + currentUser.save_count;
     document.querySelector('#user-saves-days').innerText = (currentUser.days_since_login === 999999 ? '0' : Math.round((currentUser.save_count / (currentUser.days_since_login - currentUser.days_since_created)) * -10) / 10) + ' saves/day';
-    document.querySelector('#user-email').innerText = 'E-mail: ' + (currentUser.email !== '' ? currentUser.email : 'n/a');
+    document.querySelector('#user-email').innerText = 'Email: ' + (currentUser.email !== '' ? currentUser.email : 'n/a');
     document.querySelector('#user-approver').innerText = 'Approver: ' + (user.enforce_approver ? getUser(currentUser.approver).full_name : 'n/a');
 
     slider_user.noUiSlider.set(currentUser.privilege);
@@ -993,7 +993,7 @@ function prepareCSV() {
 
 
   final.push(['']);
-  final.push(['Level', 'Full Name', 'Username', 'Last Login', 'Date Created', 'Save Count', 'E-mail', 'Approver', 'Has Source', 'Has Overwrite', 'Allow Delete', 'Allow Upload', 'Is Locked', 'Access Groups']);
+  final.push(['Level', 'Full Name', 'Username', 'Last Login', 'Date Created', 'Save Count', 'Email', 'Approver', 'Has Source', 'Has Overwrite', 'Allow Delete', 'Allow Upload', 'Is Locked', 'Access Groups']);
 
   for (let user of filtered) {
     let groups = '';
