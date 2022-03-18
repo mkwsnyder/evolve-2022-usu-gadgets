@@ -16,28 +16,28 @@
  * @deprecated Use otherFunction().
  */
 
-class OU_FileBrowser {
+/**
+ * The OmniFileBrowser creates a separate screen in the gadget that lets the
+ * user browse and select a directory for the site they are on.
+ *
+ * By default toggleSidePanel('file-browser', 'right') can be used to show/hide the browser.
+ *
+ * The configuration can take the following options:
+ * - **api** (OmniAPI) – Reference to an instance of the OmniAPI.
+ * - **callback** (function) – Callback function that runs when the user exits
+ * the browser and is passed the path for the selected directory path.
+ * - **includePages** (boolean) – When set to true, pages are included in the browser (defaults to false).
+ * - **includeBinaries** (boolean) – When set to true, binaries are included in the browser (defaults to false).
+ * - **side** (String) – Which side the browser should slide in and out of (defaults to 'right').
+ *
+ * @param {Object} config Configuration object.
+ */
+class OmniFileBrowser {
 
-  /**
-   * The OU_FileBrowser creates a separate screen in the gadget that lets the
-   * user browse and select a directory for the site they are on.
-   *
-   * By default toggleSidePanel('file-browser', 'right') can be used to show/hide the browser.
-   *
-   * The configuration can take the following options:
-   * - **api** (OMNI_API) – Reference to an instance of the OMNI_API.
-   * - **callback** (function) – Callback function that runs when the user exits
-   * the browser and is passed the path for the selected directory path.
-   * - **includePages** (boolean) – When set to true, pages are included in the browser (defaults to false).
-   * - **includeBinaries** (boolean) – When set to true, binaries are included in the browser (defaults to false).
-   * - **side** (String) – Which side the browser should slide in and out of (defaults to 'right').
-   *
-   * @param {Object} config Configuration object.
-   */
   constructor(config = {}) {
 
-    if (!(config.api instanceof OMNI_API)) {
-      console.log('Error: The OU_Filebrowser requires a reference to an instance of the OMNI_API to function.');
+    if (!(config.api instanceof OmniAPI)) {
+      console.log('Error: The OmniFileBrowser requires a reference to an instance of the OmniAPI to function.');
       return;
     }
 
@@ -54,7 +54,7 @@ class OU_FileBrowser {
   }
 
   callback(path) {
-    console.log('No assigned callback function for OU_FileBrowser');
+    console.log('No assigned callback function for OmniFileBrowser');
   }
 
   createBrowser() {
@@ -210,22 +210,22 @@ class OU_FileBrowser {
   }
 }
 
-class OU_UserList {
+/**
+ * Gets a list of users from Omni CMS and makes them easily accessible via the findByUsername() function.
+ *
+ * The configuration can take the following options:
+ * - **api** (OmniAPI) – Reference to an instance of the OmniAPI.
+ *
+ * @param {Object} config Configuration object.
+ */
+class OmniUserList {
 
-  /**
-   * Gets a list of users from Omni CMS and makes them easily accessible via the findByUsername() function.
-   *
-   * The configuration can take the following options:
-   * - **api** (OMNI_API) – Reference to an instance of the OMNI_API.
-   *
-   * @param {Object} config Configuration object.
-   */
   constructor(config = {}) {
 
     this.userList = {};
 
     if (!config.api) {
-      console.log('OU_UserList must be passed a reference to the OMNI_API in the config.');
+      console.log('OmniUserList must be passed a reference to the OmniAPI in the config.');
     } else {
       config.api.users_list().then(r => {
         for (let user of r) {
@@ -236,7 +236,7 @@ class OU_UserList {
     }
   }
 
-  // replaced by OU_UserList.get() for the sake of brevity
+  // replaced by OmniUserList.get() for the sake of brevity
   findByUsername(username) {
     return this.get(username);
   }
@@ -255,26 +255,26 @@ class OU_UserList {
   }
 }
 
+/**
+ * Creates a modal that can be shown and modified at runtime.
+ *
+ * Functions:
+ * - toggle()
+ * - show()
+ * - close()
+ * - setTitle(String)
+ * - setBody(String)
+ * - setBodyHTML(String)
+ * - setType(String)
+ * - showDownload(Array, String)
+ *
+ * The configuration can take the following options:
+ * - **api** (OmniAPI) – Reference to an instance of the OmniAPI.
+ *
+ * @param {Object} config Configuration object.
+ */
 class GadgetModal {
 
-  /**
-   * Creates a modal that can be shown and modified at runtime.
-   *
-   * Functions:
-   * - toggle()
-   * - show()
-   * - close()
-   * - setTitle(String)
-   * - setBody(String)
-   * - setBodyHTML(String)
-   * - setType(String)
-   * - showDownload(Array, String)
-   *
-   * The configuration can take the following options:
-   * - **api** (OMNI_API) – Reference to an instance of the OMNI_API.
-   *
-   * @param {Object} config Configuration object.
-   */
   constructor(config = {}) {
 
     this.div = document.createElement('div');

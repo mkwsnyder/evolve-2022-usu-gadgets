@@ -1,0 +1,200 @@
+html, body, #main, .custom-panel {
+    height: 100%;
+}
+
+#main {
+    padding: 0;
+}
+
+label {
+    margin-bottom: .25em;
+}
+
+#init {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
+.custom-panel {
+    padding: 10px;
+    position: relative;
+    width: 30%;
+}
+
+.custom-panel:nth-child(1) {
+    width: 40%;
+}
+
+#central-panel {
+    position: relative;
+}
+
+#user-list {
+    flex-grow: 1;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    min-height: 0;
+}
+
+.user-list-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: solid #bbb thin;
+}
+
+.user-list-item:hover {
+    color: #0c5460;
+    background-color: #d1ecf1;
+}
+
+.no-highlight {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+.rs-container {
+    margin: auto;
+}
+
+.inner-panel {
+    position: absolute;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border: solid #bbb thin;
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.noUi-handle {
+    cursor: pointer;
+}
+
+.shadow-top {
+    -webkit-box-shadow: inset 0 10px 15px -10px rgba(0, 0, 0, .5);
+    -moz-box-shadow: inset 0 10px 15px -10px rgba(0, 0, 0, .5);
+    box-shadow: inset 0 10px 15px -10px rgba(0, 0, 0, .5);
+}
+
+.shadow-bottom {
+    -webkit-box-shadow: inset 0 -10px 15px -10px rgba(0, 0, 0, .5);
+    -moz-box-shadow: inset 0 -10px 15px -10px rgba(0, 0, 0, .5);
+    box-shadow: inset 0 -10px 15px -10px rgba(0, 0, 0, .5);
+}
+
+/* Slider height. */
+.noUi-horizontal {
+    height: 12px;
+}
+
+/* Handle height. */
+.noUi-horizontal .noUi-handle {
+    height: 21px;
+}
+
+/* Tick marks on handle. */
+.noUi-handle:before, .noUi-handle:after {
+    height: 12px;
+    top: 4px;
+}
+
+/* Numbers below slider. */
+.noUi-value-horizontal {
+    -webkit-transform: translate(-50%, -20%);
+    -moz-transform: translate(-50%, -20%);
+    -ms-transform: translate(-50%, -20%);
+    -o-transform: translate(-50%, -20%);
+    transform: translate(-50%, -20%);
+}
+
+/* Hides the large tick marks (where numbers show). */
+.noUi-marker-large {
+    display: none;
+}
+
+.input-group-text-sm {
+    font-size: 14px;
+    padding: 4px 8px;
+    width: -moz-min-content;
+    width: min-content;
+}
+
+.min-info .li-username, .min-info .li-date {
+    display: none;
+}
+
+#top-bar {
+    margin: -10px;
+    padding: 10px 0;
+    background: white;
+}
+
+.user-info div {
+    margin-left: -10px;
+    margin-right: -10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.user-info div:nth-child(odd) {
+    background-color: whitesmoke;
+}
+
+.date-picker {
+    max-width: 100%;
+}
+
+.input-group-prepend .custom-select {
+    border-radius: .25em 0 0 .25em;
+}
+
+.dropdown-menu, .dropdown-menu input, .dropdown button {
+    font-size: .9rem;
+}
+
+.flex-equal {
+    flex-basis: 0;
+}
+
+.pre-init {
+    cursor: not-allowed;
+}
+
+.bottom-of-panel {
+    position: absolute;
+    bottom: 10px;
+    width: calc(100% - 20px);
+}
+
+#filter-count {
+    display: inline;
+    text-align: center;
+    width: 42px;
+}
+
+.custom-control-input:disabled ~ .custom-control-label {
+    cursor: not-allowed;
+}
+
+.alert-help {
+    border: solid rgb(128, 128, 128) thin;
+}
+
+.slider-container {
+    padding: 15px;
+}
+
+#init-loading {
+    display: none;
+    line-height: 31px;
+    text-align: center;
+    width: 100%;
+}

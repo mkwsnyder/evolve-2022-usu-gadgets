@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <!-- This title is not used. -->
+  <title>User Manager</title>
+
+  <!-- Bootstrap 4 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+		  integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+  <!-- Bootstrap Datepicker -->
+  <link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css"
+		  integrity="sha384-hYpyGyCCu/tFB5o1MzmL6lSYxsdq/0Eg1p2aUHwlNZLPL0iIT8k9U4T2iU0dXq+W" crossorigin="anonymous">
+
+  <!-- noUiSlider -->
+  <link rel="stylesheet" href="../_lib/no_cdn/nouislider.min.css" crossorigin="anonymous"/>
+
+  <!-- Bootstrap Select -->
+  <link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
+  <!-- custom-gadget.css -->
+  <link rel="stylesheet" href="../_lib/custom-gadget.css">
+
+  <!-- css unique to this gadget -->
+  <link rel="stylesheet" href="user-manager.css">
+
+  <!-- popper.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+		  integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		  crossorigin="anonymous"></script>
+
+  <!-- jQuery 3 js -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+		  crossorigin="anonymous"></script>
+
+  <!-- Bootstrap 4 -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+		  integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+		  crossorigin="anonymous"></script>
+
+  <!-- Bootstrap Datepicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"
+		  integrity="sha384-T6IN6AvPLUXGcIHk/blJvXNvr9Ob/8zupL/zpOn9ZjxVb0DvgyjoG0+T6ojcYkTu"
+		  crossorigin="anonymous"></script>
+
+  <!-- bootstrap select -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"
+		  integrity="sha384-V2ETvVMpY0zaj0P3nwnqTUqHU19jQInctJYWqgEQE/5vFaU3fWdcMfufqV/8ISD7"
+		  crossorigin="anonymous"></script>
+
+  <!-- noUI Slider -->
+  <script src="../_lib/no_cdn/nouislider.min.js" crossorigin="anonymous"></script>
+
+  <!-- wNumb for noUI Slider -->
+  <script src="../_lib/no_cdn/wNumb.js" crossorigin="anonymous"></script>
+
+  <!-- gadgetlib.js -->
+  <script type="text/javascript" src="../_lib/gadgetlib.js"></script>
+
+  <!-- custom-gadgetlib.js -->
+  <script type="text/javascript" src="../_lib/custom-gadget.js"></script>
+
+  <!-- custom Omni CMS API library -->
+  <script type="text/javascript" src="../_lib/omni-api.js"></script>
+
+  <!-- js unique to this gadget -->
+  <script type="text/javascript" src="user-manager.js"></script>
+
+</head>
+
+<body>
+
+<div id="loading" class="gadget-panel row">
+  <div class="col">
+	<h3 style="display: inline;">Loading...</h3>
+  </div>
+  <div class="col">
+	<div class="spinner-border float-right" role="status">
+	  <span class="sr-only">Loading...</span>
+	</div>
+  </div>
+</div> <!-- loading end -->
+
+<div id="gadget-toolbar-container" style="display: none;">
+  <button id="gadget-toolbar-trigger" type="button" class="btn btn-sm btn-secondary" title="Menu">
+	<i class="arrow down"></i>
+  </button>
+  <div id="gadget-toolbar" class="btn-toolbar" role="toolbar">
+
+	<div class="btn-group btn-group-sm">
+	  <button type="button" class="btn btn-outline-success" onclick="location.reload(true);">Refresh</button>
+	  <button type="button" class="btn btn-outline-info" onclick="toggleSidePanel('info')">Info</button>
+	  <!--            <a id="csv-export" class="btn-group btn-group-sm">-->
+	  <!--                <button type="button" class="btn btn-outline-secondary" disabled>Export</button>-->
+	  <!--            </a>-->
+	</div>
+  </div>
+</div> <!-- gadget-toolbar-container end -->
+
+<div id="info" class="gadget-panel hide-left">
+  <h2 style="display: inline;">Info</h2>
+  <button type="button" class="close" aria-label="Close" onclick="toggleSidePanel('info')">
+	<span aria-hidden="true">&times;</span>
+  </button>
+  <hr/>
+
+  <div>
+
+	<p>The User Manager gadget allows you to manage several users through a single interface. It supports
+	  filtering users, editing individual users, and editing users en masse.</p>
+
+	<hr/>
+
+	<h3>Usage</h3>
+	<p>The gadget has three main panels each with a designated purpose. From left to right they are the <span
+			class="font-weight-bold">filtering panel</span>, the <span class="font-weight-bold">list panel</span>,
+	  and the <span class="font-weight-bold">user panel</span>.</p>
+
+	<hr/>
+
+	<div class="alert alert-help">
+
+	  <h4>Filtering Panel</h4>
+	  <p>The filtering panel provides a fine-grain control over which users are and aren't shown. They will be
+		explained from top to bottom.</p>
+
+	  <hr/>
+
+	  <p><span class="font-weight-bold">Name or Username Text Input</span> - This allows you to search by name or
+		Username to find a specific user.</p>
+	  <p><span class="font-weight-bold">Sort By Dropdown</span> - This allows you to sort the results by the
+		following: alphabetical (last name), date of last login, date created, and their access level. By
+		default the list is sorted alphabetically.</p>
+	  <p><span class="font-weight-bold">User Count</span> - The gray box to the right of the sort dropdown
+		displays the number of users that the current filters apply to.</p>
+	  <p><span class="font-weight-bold">Level Slider</span> - The slider lets you select a range of user levels to
+		view.</p>
+	  <p><span class="font-weight-bold">Last Login &amp; Date Created</span> - These two options let you filter
+		users by date of their most recent login and/or the date their account was created. The dropdown can
+		switch between before and after the selected date.</p>
+
+	  <hr/>
+
+	  <h5>Toggleable Options</h5>
+	  <p><span class="font-weight-bold">Has Source Code</span> - Only users with source code access will be
+		included.</p>
+	  <p><span class="font-weight-bold">Not in any Groups</span> - Only users that aren't in any groups will be
+		included.</p>
+	  <p><span class="font-weight-bold">Never Logged In</span> - Only users that have never logged in will be
+		included.</p>
+	  <p><span class="font-weight-bold">No e-mail</span> - Only users that don't have a set e-mail will be
+		included.</p>
+	  <!--	  <p><span class="font-weight-bold">Previous Admin</span> - Only users that were previously an admin will be-->
+	  <!--		included. The gadget does so by checking if their name includes an asterisk. Mutually exclusive with-->
+	  <!--		"Not a Previous Admin".</p>-->
+	  <!--	  <p><span class="font-weight-bold">Not a Previous Admin</span> - Only users that were not previously an admin-->
+	  <!--		will be included. The gadget does so by checking if their name includes an asterisk. Mutually exclusive-->
+	  <!--		with "Not a Previous Admin".</p>-->
+	  <p><span class="font-weight-bold">Has an Approver</span> - Only users that have an approver will be
+		included.</p>
+	  <p><span class="font-weight-bold">User is Locked</span> - Only users that are locked will be included (locked
+		users are prevented from being able to log in).</p>
+
+	  <p><span class="font-weight-bold">Has Been Modified</span> - Only users that have been modified in the
+		gadget will be included.</p>
+	  <p><span class="font-weight-bold">Has Been Submitted</span> - Only users that have been modified and
+		submitted via the gadget will be included.</p>
+	  <p><span class="font-weight-bold">Has Been Modified</span> - Only users that have been deleted in the gadget
+		will be included.</p>
+
+	</div>
+
+	<hr/>
+
+	<div class="alert alert-help">
+
+	  <h4>List Panel</h4>
+	  <p>This panel displays a list of all users that the applicable filters apply to. From here you select the
+		user that you want to edit.</p>
+
+	  <hr/>
+
+	  <p><span class="font-weight-bold">Select All/Deselect All</span> - Selects all users that the current
+		filters apply to and allows you to edit them en masse.</p>
+	  <p><span class="font-weight-bold">Export List</span> - Exports a CSV file with all of the current filters
+		and all the users that filter applies to.</p>
+
+	  <hr/>
+
+	  <h5>Color Coding</h5>
+	  <p class="text-primary"><span class="font-weight-bold">Blue</span> - The currently selected user(s).</p>
+	  <p class="text-warning"><span class="font-weight-bold">Yellow</span> - The user has been modified but not
+		submitted.</p>
+	  <p class="text-success"><span class="font-weight-bold">Green</span> - The user has been submitted.</p>
+	  <p class="text-danger"><span class="font-weight-bold">Red</span> - The user has been deleted.</p>
+
+	</div>
+
+	<hr/>
+
+	<div class="alert alert-help">
+
+	  <h4>User Panel</h4>
+	  <p>This panel lets you edit the currently selected user. There are two versions of the panel that switch
+		depending on whether you are editing a single user or a group of users.</p>
+
+	  <hr/>
+
+	  <h5>Single User Options</h5>
+	  <p><span class="font-weight-bold">Delete Button</span> - Deletes the currently selected user. The user is
+		not immediately deleted but must be confirmed in a modal to prevent accidental deletion. Deletions
+		cannot be undone.</p>
+	  <p><span class="font-weight-bold">Purge Button</span> - Sets the current user to level 0, removes all
+		permissions, and removes them from all groups.</p>
+	  <p><span class="font-weight-bold">Revert Button</span> - Reverts any unsubmitted changes made to the user.
+	  </p>
+	  <p><span class="font-weight-bold">Submit Button</span> - Submits any changes made to the user.</p>
+
+	  <p><span class="font-weight-bold">Level Slider</span> - Changes the level of the currently selected user.
+	  </p>
+	  <p><span class="font-weight-bold">Allow Source</span> - Changes whether or not a user has source code
+		access.</p>
+	  <p><span class="font-weight-bold">Allow Overwrite</span> - Changes whether or not a user can overwrite files
+		when uploading.</p>
+	  <p><span class="font-weight-bold">Allow Delete</span> - Changes whether or not a user can delete files.</p>
+	  <p><span class="font-weight-bold">Allow Upload</span> - Changes whether or not a user can upload files.</p>
+	  <p><span class="font-weight-bold">Lock User</span> - Prevents the user from being able to log in. Currently cannot be modified via this gadget (this should change at some point).</p> <!-- TODO LOCKED: re-word this once the /rs/users/USERNAME/locked endpoint is fixed -->
+
+	  <p><span class="font-weight-bold">Groups Dropdown</span> - Changes the groups that the user is currently in.
+	  </p>
+	  <p class="font-italic">Different user levels automatically have access to different permissions, so a user
+		may have access to something that it appears they don't. For example, users automatically have source
+		code access at levels 9 and above, but whether or not the option is selected is irrelevant. The
+		following permissions are automatically given at these user levels:</p>
+
+	  <ul class="font-italic">
+		<li>Level 9 - Source Code Access</li>
+		<li>Level 9 - Overwrite</li>
+		<li>Level 8 - Delete</li>
+		<li>Level 6 - Upload</li>
+	  </ul>
+
+	  <hr/>
+
+	  <h5>Multi-User Options</h5>
+	  <p><span class="font-weight-bold">Set to Level 0</span> - Sets all currently selected users to level 0.</p>
+	  <p><span class="font-weight-bold">Remove from all Groups</span> - Removes all currently selected users from
+		any groups they are currently in.</p>
+	  <p><span class="font-weight-bold">Remove/Allow Delete</span> - Removes/Grants permissions to delete files
+		for all currently selected users.</p>
+	  <p><span class="font-weight-bold">Remove/Allow Overwrite</span> - Removes/Grants permissions to overwrite
+		files for all currently selected users.</p>
+	  <p><span class="font-weight-bold">Remove/Allow Source</span> - Removes/Grants source code access for all
+		currently selected users.</p>
+	  <p><span class="font-weight-bold">Remove/Allow Upload</span> - Removes/Grants permissions to upload files
+		for all currently selected users.</p>
+<!--	  <p><span class="font-weight-bold">Lock/Unlock User</span> - Locks/Unlocks all currently selected users (prevents-->
+<!--		the user from being able to log in).</p>--> <!-- TODO LOCKED: re-add this once the /rs/users/USERNAME/locked endpoint is fixed -->
+	  <p><span class="font-weight-bold">Purge All</span> - Sets all currently selected users to level 0, removes
+		all permissions, and removes them from all groups.</p>
+	  <p><span class="font-weight-bold">Revert All</span> - Reverts any unsubmitted changes made to the currently
+		selected users.</p>
+	  <p><span class="font-weight-bold">Submit All</span> - Submits any changes made to the currently selected
+		users.</p>
+
+	  <p class="font-italic">Multiple users cannot be deleted all at once to prevent accidental mass
+		deletions.</p>
+
+	</div>
+
+  </div>
+
+  <hr/>
+
+  <div class="accordion">
+	<div id="accordion-changelog" class="card" style="display: block;">
+	  <div id="accordion-changelog-header" class="card-header collapsed" type="button" data-toggle="collapse"
+			  data-target="#accordion-changelog-collapse" aria-expanded="false" aria-controls="accordion-changelog">
+		<span class="ml-1">Changelog</span>
+	  </div>
+	  <div id="accordion-changelog-collapse" class="collapse" aria-labelledby="accordion-changelog-header"
+			  data-parent="#accordion-changelog" style="">
+		<div class="card-body">
+		  <h5>1.1.0</h5>
+		  <span class="text-muted">3/18/22</span>
+		  <div>A few filtering options were adjusted and some bugs were fixed.</div>
+		  <hr/>
+		  <h4>1.0.0</h4>
+		  <span class="text-muted">10/17/19</span>
+		  <div>Gadget Launched.</div>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <hr/>
+  <p class="gadget-feedback">Send feedback to <a
+		  href="mailto:itweb@usu.edu?subject=User%20Manager%20Gadget%20Feedback">itweb@usu.edu</a>.
+</div> <!-- help end -->
+
+<div id="main" class="gadget-panel" style="display: none;">
+
+  <div class="custom-panel flex-grow-1">
+
+	<div class="d-flex">
+
+	  <div class="flex-grow-1 mr-2">
+		<div class="input-group-sm">
+		  <input id="filter-name" class="form-control trigger-filter-input pre-init" type="text"
+				  title="Search by name or username" placeholder="Name or Username">
+		</div>
+	  </div>
+
+	  <div class="flex-grow-1 mr-2">
+
+		<select id="sort" class="custom-select custom-select-sm trigger-sort pre-init" title="Sort users by...">
+		  <option value="default">Sort by...</option>
+		  <option value="a-z">A-Z</option>
+		  <option value="z-a">Z-A</option>
+		  <option value="login">Last Login</option>
+		  <option value="login_d">Login (Desc)</option>
+		  <option value="created">Date Created</option>
+		  <option value="created_d">Created (Desc)</option>
+		  <option value="level">Level</option>
+		  <option value="level_d">Level (Desc)</option>
+		</select>
+
+	  </div>
+
+	  <div class="flex-grow-0" style="display: flex;">
+
+		<span id="filter-count" class="input-group-text input-group-text-sm no-highlight"
+				title="User Count">&hellip;</span>
+
+	  </div>
+
+	</div>
+
+	<div class="slider-container mb-3">
+	  <div id="filter-lvl-slider" class="pre-init"></div>
+	</div>
+
+	<div class="d-flex mb-2">
+
+	  <div class="flex-grow-1 flex-equal mr-2">
+
+		<label for="months-login">Last login was</label>
+
+		<div class="input-group input-group-sm">
+
+		  <div class="input-group-prepend input-group-sm">
+
+			<select id="filter-login" class="custom-select trigger-filter pre-init">
+			  <option value="before">before</option>
+			  <option value="after">after</option>
+			</select>
+
+		  </div>
+
+		  <input id="months-login" type="text" class="form-control date-picker pre-init" value="">
+
+		</div>
+
+	  </div>
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<label for="months-created">Date created was</label>
+
+		<div class="input-group input-group-sm">
+
+		  <div class="input-group-prepend input-group-sm">
+
+			<select id="filter-created" class="custom-select trigger-filter pre-init">
+			  <option value="before">before</option>
+			  <option value="after">after</option>
+			</select>
+
+		  </div>
+
+		  <input id="months-created" type="text" class="form-control date-picker pre-init" value="">
+
+		</div>
+
+	  </div>
+
+	</div>
+
+	<div class="d-flex no-highlight mb-2">
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-source" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-source">Has Source Code</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-no-groups" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-no-groups">Not in any Groups</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-never-logged" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-never-logged">Never Logged In</label>
+		</div>
+
+	  </div>
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-no-email" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-no-email">No e-mail</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-approver" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-approver">Has an Approver</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-locked" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-locked">User is Locked</label>
+		</div>
+
+	  </div>
+
+	</div>
+
+	<hr/>
+
+	<div class="d-flex no-highlight mb-2">
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-modified" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-modified">Has Been Modified</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-deleted" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-deleted">Has Been Deleted</label>
+		</div>
+
+	  </div>
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="filter-checkbox-submitted" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-filter" for="filter-checkbox-submitted">Has Been Submitted</label>
+		</div>
+
+	  </div>
+
+	</div>
+
+	<div class="bottom-of-panel">
+
+	  <button class="btn btn-sm btn-block btn-outline-danger pre-init" onclick="resetFilter()">Reset all Filter
+		Options
+	  </button>
+
+	</div>
+
+  </div> <!-- end left panel -->
+
+  <div id="central-panel" class="custom-panel flex-grow-1">
+
+	<div id="top-bar">
+
+	  <div id="init">
+
+		<div class="d-flex">
+
+		  <button id="init-button" class="btn btn-sm btn-outline-primary" onclick="run()" style="margin: auto;">Build
+			User List
+		  </button>
+
+		  <div id="init-loading">
+
+			<span id="init-text">Fetching User List...</span>
+			<span id="init-count"></span>
+			<span>&nbsp;</span>
+			<div class="spinner-border spinner-border-sm spinner-grow-sm" role="status">
+			  <span class="sr-only">Loading...</span>
+			</div>
+
+		  </div>
+
+		</div>
+
+	  </div>
+
+	  <div id="list-buttons" style="display: none;">
+
+		<div class="d-flex">
+
+		  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2" role="group">
+			<button id="select-all" type="button" class="btn btn-outline-success"
+					onclick="selectAll()">Select All
+			</button>
+		  </div>
+
+		  <div class="btn-group btn-group-sm flex-grow-1 flex-equal" role="group">
+			<a id="csv-export" role="button" class="btn btn-outline-secondary disabled"
+					onclick="prepareCSV()">Export List</a>
+		  </div>
+
+		</div>
+	  </div>
+
+	</div>
+
+	<div class="inner-panel shadow-top">
+
+	  <div id="user-list" class="no-highlight shadow-bottom">
+	  </div>
+
+	</div>
+  </div> <!-- end central panel -->
+
+  <div id="single-user-panel" class="custom-panel flex-grow-1" style="position: relative;">
+
+	<div class="btn-toolbar d-flex mb-2" role="toolbar">
+
+	  <div class="btn-group btn-group-sm flex-grow-1 mr-2 mb-2" role="group">
+		<button id="user-delete" type="button" class="btn btn-outline-danger" data-toggle="modal"
+				data-target="#delete-modal" onclick="triggerDelete()" disabled>Delete
+		</button>
+		<button id="user-purge" type="button" class="btn btn-outline-danger" onclick="purge()" disabled>
+		  Purge
+		</button>
+	  </div>
+
+	  <div class="btn-group btn-group-sm flex-grow-1 mb-2" role="group">
+		<button id="user-revert" type="button" class="btn btn-outline-info" onclick="revert()" disabled>
+		  Revert
+		</button>
+		<button id="user-submit" type="button" class="btn btn-outline-primary" onclick="submit()"
+				disabled>
+		  Submit
+		</button>
+	  </div>
+
+	</div>
+
+	<div class="d-flex mb-1">
+
+	  <div class="user-info flex-grow-1">
+		<div>
+		  <span id="user-full-name">&nbsp;</span>
+		  <span id="user-username" class="float-right"></span>
+		</div>
+		<div>
+		  <span id="user-login-date">&nbsp;</span>
+		  <span id="user-login-days" class="float-right"></span>
+		</div>
+		<div>
+		  <span id="user-created-date">&nbsp;</span>
+		  <span id="user-created-days" class="float-right"></span>
+		</div>
+		<div>
+		  <span id="user-saves">&nbsp;</span>
+		  <span id="user-saves-days" class="float-right"></span>
+		</div>
+		<div>
+		  <span id="user-email">&nbsp;</span>
+		</div>
+		<div>
+		  <span id="user-approver">&nbsp;</span>
+		</div>
+	  </div>
+
+	</div>
+
+	<div class="slider-container mb-3">
+	  <div id="user-lvl-slider" class="pre-init"></div>
+	</div>
+
+	<div class="d-flex no-highlight mb-2">
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="user-checkbox-source" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-user pre-init" for="user-checkbox-source">Allow Source</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="user-checkbox-overwrite" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-user pre-init" for="user-checkbox-overwrite">Allow
+			Overwrite</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <!-- TODO LOCKED: re-add the pre-init class to the input and label and remove the disabled attribute from the input when /rs/users/USERNAME/locked endpoint is fixed -->
+		  <input id="user-checkbox-locked" type="checkbox" class="custom-control-input"  disabled="">
+		  <label class="custom-control-label trigger-user" for="user-checkbox-locked"
+		  data-toggle="tooltip" data-placement="right" title="This cannot currently be changed via the gadget">Lock User</label>
+		</div>
+
+	  </div>
+
+	  <div class="flex-grow-1 flex-equal">
+
+		<div class="custom-control custom-switch">
+		  <input id="user-checkbox-delete" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-user pre-init" for="user-checkbox-delete">Allow Delete</label>
+		</div>
+
+		<div class="custom-control custom-switch">
+		  <input id="user-checkbox-upload" type="checkbox" class="custom-control-input pre-init">
+		  <label class="custom-control-label trigger-user pre-init" for="user-checkbox-upload">Allow Upload</label>
+		</div>
+
+	  </div>
+
+
+	</div>
+
+	<div class="bottom-of-panel">
+	  <select id="user-groups" class="" data-actions-box="true" data-live-search="true" data-title="Groups"
+			  data-virtual-scroll="true" data-width="100%" multiple>
+	  </select>
+	</div>
+
+  </div> <!-- end right panel -->
+
+  <div id="multi-user-panel" class="custom-panel flex-grow-1" style="display: none;">
+
+	<button id="multi-user-level-false" class="multi-user btn btn-sm btn-block btn-outline-secondary mb-2"
+			onclick="multiUserModifyByFunc(setLevelZero); updateMultiUserButton(this.id);">Set to Level 0
+	</button>
+	<button id="multi-user-groups-false" class="multi-user btn btn-sm btn-block btn-outline-secondary mb-2"
+			onclick="multiUserModifyByFunc(setNoGroups); updateMultiUserButton(this.id);">Remove from all Groups
+	</button>
+
+	<div class="d-flex">
+
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2 mb-2">
+		<button id="multi-user-allow_delete-false" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_delete', false)">Remove Delete
+		</button>
+	  </div>
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mb-2">
+		<button id="multi-user-allow_delete-true" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_delete', true)">Allow Delete
+		</button>
+	  </div>
+
+	</div>
+
+	<div class="d-flex">
+
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2 mb-2">
+		<button id="multi-user-allow_overwrite-false" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_overwrite', false)">Remove Overwrite
+		</button>
+	  </div>
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mb-2">
+		<button id="multi-user-allow_overwrite-true" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_overwrite', true)">Allow Overwrite
+		</button>
+	  </div>
+
+	</div>
+
+	<div class="d-flex">
+
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2 mb-2">
+		<button id="multi-user-allow_source-false" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_source', false)">Remove Source
+		</button>
+	  </div>
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mb-2">
+		<button id="multi-user-allow_source-true" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_source', true)">Allow Source
+		</button>
+	  </div>
+
+	</div>
+
+	<div class="d-flex">
+
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2 mb-2">
+		<button id="multi-user-allow_upload-false" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_upload', false)">Remove Upload
+		</button>
+	  </div>
+	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mb-2">
+		<button id="multi-user-allow_upload-true" class="multi-user btn btn-outline-secondary"
+				onclick="multiUserModifyVal('allow_upload', true)">Allow Upload
+		</button>
+	  </div>
+
+	</div>
+
+<!--	<div class="d-flex">--> <!-- TODO LOCKED: re-add these once the /rs/users/USERNAME/locked endpoint is fixed -->
+
+<!--	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mr-2 mb-2">-->
+<!--		<button id="multi-user-locked-true" class="multi-user btn btn-outline-secondary"-->
+<!--				onclick="multiUserModifyVal('locked', true)">Lock Users-->
+<!--		</button>-->
+<!--	  </div>-->
+<!--	  <div class="btn-group btn-group-sm flex-grow-1 flex-equal mb-2">-->
+<!--		<button id="multi-user-locked-false" class="multi-user btn btn-outline-secondary"-->
+<!--				onclick="multiUserModifyVal('locked', false)">Unlock Users-->
+<!--		</button>-->
+<!--	  </div>-->
+
+<!--	</div>-->
+
+	<button class="btn btn-sm btn-block btn-outline-danger" onclick="multiUserModifyByFunc(purge)">Purge All
+	</button>
+	<button class="btn btn-sm btn-block btn-outline-info" onclick="multiUserModifyByFunc(revert)">Revert All
+	</button>
+	<button class="btn btn-sm btn-block btn-outline-primary" onclick="multiUserModifyByFunc(submit)">Submit All
+	</button>
+
+  </div>
+
+</div> <!-- main end -->
+
+<div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete-modal-label"
+		aria-hidden="true">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 id="delete-modal-label" class="modal-title">Delete User for</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <div class="modal-body">
+		This action cannot be undone.
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+		<button id="confirm-delete" type="button" class="btn btn-outline-danger" data-dismiss="modal"
+				onclick="deleteSubmit()" style="transition: .5s;">Delete User
+		</button>
+	  </div>
+	</div>
+  </div>
+</div> <!-- delete-modal end -->
+
+<div id="submit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="submit-modal-label"
+		aria-hidden="true">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 id="submit-modal-label" class="modal-title">Submission Successful!</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <!--            <div class="modal-body">-->
+	  <!--            </div>-->
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+  </div>
+</div> <!-- submit-modal end -->
+
+<div id="fail-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="fail-modal-label"
+		aria-hidden="true">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h5 id="fail-modal-label" class="modal-title">An Error Occurred</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+	  </div>
+	  <div class="modal-body">
+		An error occurred when processing your request. It is likely that a session timeout occurred. Try
+		refreshing the dashboard and try again.
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+  </div>
+</div> <!-- fail-modal end -->
+
+<div style="display: none;">
+
+  <div id="clone-li" class="user-list-item" style="display: flex">
+	<div class="flex-grow-1">
+	  <span class="li-name">Mark Snyder</span>
+	  <br/>
+	  <span class="li-username">A02261812</span>
+	</div>
+	<div class="flex-grow-1 text-right">
+	  <span class="li-lvl">Access Level: 10</span>
+	  <br/>
+	  <span class="li-date">Last Login: 10/31/19</span>
+	</div>
+  </div>
+
+</div>
+
+<div style="display:none"><!-- ouc:ob --><!-- /ouc:ob --></div>
+</body>
+</html>
+

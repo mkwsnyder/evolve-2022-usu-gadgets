@@ -3,23 +3,23 @@
  * @copyright Copyright 2020-2021 Utah State University
  */
 
-class OMNI_API {
+/**
+ * The **OmniAPI** interface is a JavaScript library used for making and
+ * logging requests to the Omni CMS API.
+ *
+ * The configuration can take the following options:
+ * - **debug** (boolean) – When set to true, the OmniAPI will log every request to the browser console. Defaults to false.
+ * - **logging** (boolean) – When set to true, gadget activity is logged to metadata. Defaults to *true*.
+ * - **modal** (Object) – Reference to a GadgetModal.
+ * - **name** (String) – Name of the gadget; this is only used for logging.
+ * - **site** (String) – If an API request requires a site as a parameter, and the
+ * user did not provide a site, this site will be used. Defaults to the
+ * current site in Omni CMS.
+ *
+ * @param {Object} config Configuration object.
+ */
+class OmniAPI {
 
-  /**
-   * The **OMNI_API** interface is a JavaScript library used for making and
-   * logging requests to the Omni CMS API.
-   *
-   * The configuration can take the following options:
-   * - **debug** (boolean) – When set to true, the OMNI_API will log every request to the browser console. Defaults to false.
-   * - **logging** (boolean) – When set to true, gadget activity is logged to metadata. Defaults to *true*. This is currently unused.
-   * - **modal** (Object) – Reference to a GadgetModal.
-   * - **name** (String) – Name of the gadget; this is only used for logging.
-   * - **site** (String) – If an API request requires a site as a parameter, and the
-   * user did not provide a site, this site will be used. Defaults to the
-   * current site in Omni CMS.
-   *
-   * @param {Object} config Configuration object.
-   */
   constructor(config = {}) {
     this.debug = config.debug !== undefined ? config.debug : false;
     this.logging = config.logging !== undefined ? config.logging : false; // unused at the moment
@@ -28,8 +28,8 @@ class OMNI_API {
     this.site = config.site || (gadget?.site ? gadget.site : '');
 
     this.apihost = gadget.apihost || 'https://a.cms.omniupdate.com';
-    this.account = gadget.account || ''; // TODO EVOLVE: change this to your Omni CMS account
-    this.skin = gadget.skin || ''; // TODO EVOLVE: change this to your Omni CMS account
+    this.account = gadget.account || 'usu';
+    this.skin = gadget.skin || 'usu';
     this.hostbase = gadget.hostbase || `/11/#${this.account}/${this.skin}/${this.site}`;
     this.user = gadget.user || 'unknown user';
 
@@ -39,8 +39,8 @@ class OMNI_API {
 
   /**
    * Make a GET request to the Omni CMS API.
-   * @param endpoint {String} API endpoint.
-   * @param data {Object} Parameters for the API request.
+   * @param {String} endpoint API endpoint.
+   * @param {Object} data Parameters for the API request.
    * @returns {*} Response from the Omni CMS API.
    */
   get(endpoint, data) {
@@ -52,8 +52,8 @@ class OMNI_API {
 
   /**
    * Make a POST request to the Omni CMS API.
-   * @param endpoint {String} API endpoint.
-   * @param data {Object} Parameters for the API request.
+   * @param {String} endpoint API endpoint.
+   * @param {Object} data Parameters for the API request.
    * @returns {*} Response from the Omni CMS API.
    */
   post(endpoint, data) {
@@ -63,7 +63,7 @@ class OMNI_API {
     }, data);
   }
 
-  // TODO: Make this function private once it's supported in Firefox and Safari (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields)
+  // TODO: Make this function private once it's supported in Firefox and Safari
   call(meta, data) {
 
     if (this.debug) {
@@ -120,7 +120,7 @@ class OMNI_API {
         let d = new Date();
 
         this.modal.setTitle('Gadget API Error');
-        this.modal.setBodyHTML(`${this.errorCnt === 1 ? 'An error has' : `${this.errorCnt} errors have`} occurred. Please download the error log and send it to the <a href="mailto:">your team name (email@domain.com)</a>.`); // TODO EVOLVE: add your own support email
+        this.modal.setBodyHTML(`${this.errorCnt === 1 ? 'An error has' : `${this.errorCnt} errors have`} occurred. Please download the error log and send it to the <a href="mailto:itweb@usu.edu">IT Web Team (itweb@usu.edu)</a>.`);
         this.modal.showDownload([...[`Error Log for ${this.name} [${d.getFullYear()}/${('0' + (d.getMonth() + 1)).slice(-2)}/${('0' + d.getDate()).slice(-2)}]`], ...this.errorLog], `gadget-error-log-${this.name}`);
       }
 
@@ -151,7 +151,7 @@ class OMNI_API {
    *
    * Optional extra info.
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   template(data = {}) {
@@ -169,7 +169,7 @@ class OMNI_API {
    *
    * Lists a page of recently performed actions for a site. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   activity_list(data = {}) {
@@ -189,7 +189,7 @@ class OMNI_API {
    *
    * List a page of assets. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   assets_list(data = {}) {
@@ -207,7 +207,7 @@ class OMNI_API {
    *
    * View an asset. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   assets_view(data = {}) {
@@ -225,7 +225,7 @@ class OMNI_API {
   /**
    * Calls the [/rs/components/dependents/{type}/{name}](https://developers.omniupdate.com/#!/Components/getDependents) endpoint
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   components_dependents(data = {}) {
@@ -239,7 +239,7 @@ class OMNI_API {
   /**
    * Calls the [/rs/components/{type}/{name}](https://developers.omniupdate.com/#!/Components/read_2) endpoint
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   components_get(data = {}) {
@@ -247,14 +247,14 @@ class OMNI_API {
     return this.call({
       type: 'GET',
       endpoint: `/rs/components/${data.type}/${data.name}`,
-    }, {...defaults,});
+    }, {...defaults});
     // }, {...defaults, ...data});
   }
 
   /**
    * Calls the [/rs/components](https://developers.omniupdate.com/#!/Components/list_2) endpoint
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   components_list(data = {}) {
@@ -272,7 +272,7 @@ class OMNI_API {
    *
    * Get directory settings. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   directories_settings(data = {}) {
@@ -288,7 +288,7 @@ class OMNI_API {
    *
    * Get directory tag settings. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   directories_tag_settings(data = {}) {
@@ -306,7 +306,7 @@ class OMNI_API {
    *
    * Checkin a file. (Level 9+ or have group access)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   files_checkin(data = {}) {
@@ -324,7 +324,7 @@ class OMNI_API {
    *
    * Checkout a file. (Level 9+ or have group access)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   files_checkout(data = {}) {
@@ -342,7 +342,7 @@ class OMNI_API {
    *
    * Returns a list of pages and directories that match the specified tags and exist under the specified directory path. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   files_filter_by_tags(data = {}) {
@@ -466,6 +466,24 @@ class OMNI_API {
   }
 
   /**
+   * Calls the [/files/source](https://developers.omniupdate.com/#!/Files/get_files_source) endpoint.
+   *
+   * Get file source code. (Level 9+ or 1+ with source permissions and group access)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  files_source(data = {}) {
+    let defaults = {
+      site: this.site,
+    };
+    return this.call({
+      type: 'GET',
+      endpoint: '/files/source',
+    }, {...defaults, ...data});
+  }
+
+  /**
    * Calls the [/files/subscribers](https://developers.omniupdate.com/#!/Files/get_files_subscribers) endpoint.
    *
    * Get page products. (All user levels)Returns a list of files that are subscribers to a specified file. (All user levels)
@@ -507,7 +525,7 @@ class OMNI_API {
    *
    * View a file. (Level 9+ or have group access)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   files_view(data = {}) {
@@ -523,11 +541,29 @@ class OMNI_API {
   // ========== /groups ==========
 
   /**
+   * Calls the [/groups/add](https://developers.omniupdate.com/#!/Groups/post_groups_add) endpoint
+   *
+   * Adds one or more users to an existing group. (Level 10+ only)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  groups_add(data = {}) {
+    let defaults = {
+      account: this.account,
+    };
+    return this.call({
+      type: 'POST',
+      endpoint: '/groups/add',
+    }, {...defaults, ...data});
+  }
+
+  /**
    * Calls the [/groups/list](https://developers.omniupdate.com/#!/Groups/get_groups_list) endpoint
    *
    * Returns a list of group information. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   groups_list(data = {}) {
@@ -541,11 +577,27 @@ class OMNI_API {
   }
 
   /**
+   * Calls the [/groups/remove](https://developers.omniupdate.com/#!/Groups/post_groups_remove) endpoint
+   *
+   * Removes one or more users from a group. (Level 10+ only)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  groups_remove(data = {}) {
+    let defaults = {};
+    return this.call({
+      type: 'POST',
+      endpoint: '/groups/remove',
+    }, {...defaults, ...data});
+  }
+
+  /**
    * Calls the [/groups/view](https://developers.omniupdate.com/#!/Groups/get_groups_view) endpoint
    *
    * Returns group information for the specified group. (Level 10+ only)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   groups_view(data = {}) {
@@ -585,7 +637,7 @@ class OMNI_API {
    *
    * Custom reports. (Level 9+ only)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   custom_report(data = {}) {
@@ -607,7 +659,7 @@ class OMNI_API {
    *
    * When searching for multiple things, use paths instead of path, i.e. paths: ['/index.pcf']
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @param callback {function} Optional callback function to run when find and replace job is finished.
    * @returns {*} Response from the Omni CMS API.
    */
@@ -646,7 +698,7 @@ class OMNI_API {
    *
    * Runs automatically if a callback function was provided to api.find_replace().
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   find_replace_status(data = {}) {
@@ -662,7 +714,7 @@ class OMNI_API {
    *
    * Returns a list of sites for an account. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   sites_list(data = {}) {
@@ -680,7 +732,7 @@ class OMNI_API {
    *
    * Returns site information for the specified site. (Level 10+ only)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   sites_view(data = {}) {
@@ -701,7 +753,7 @@ class OMNI_API {
    *
    * Fetch a list of tags. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   tag_list(data = {}) {
@@ -717,11 +769,43 @@ class OMNI_API {
   // ========== /users ==========
 
   /**
+   * Calls the [/users/delete](https://developers.omniupdate.com/#!/Users/post_users_delete) endpoint
+   *
+   * Deletes one or more users in an account. (Level 10+ only)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  users_delete(data = {}) {
+    let defaults = {};
+    return this.call({
+      type: 'POST',
+      endpoint: '/users/delete',
+    }, {...defaults, ...data});
+  }
+
+  /**
+   * Calls the [/users/groups](https://developers.omniupdate.com/#!/Users/get_users_groups) endpoint
+   *
+   * Returns user information for the specified user. If you are non-admin user, only your own user info gets returned. (All user levels)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  users_groups(data = {}) {
+    let defaults = {};
+    return this.call({
+      type: 'GET',
+      endpoint: '/users/groups',
+    }, {...defaults, ...data});
+  }
+
+  /**
    * Calls the [/users/list](https://developers.omniupdate.com/#!/Users/get_users_list) endpoint
    *
    * Returns a list of user information. (All user levels)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   users_list(data = {}) {
@@ -735,11 +819,32 @@ class OMNI_API {
   }
 
   /**
+   * Calls the [/rs/users/USERNAME/locked]() endpoint, which is not in the documentation :'):gun:
+   *
+   * Locks or unlocks a user. Because there is no official documentation, this is what you have to give it:
+   * /rs/users/USERNAME/locked
+   * The request payload is _just_ true or false. No key, because that would make sense.
+   * Just pass the data object with a {String} username and {Boolean} locked values.
+   *
+   * TODO: this feature is currently broken for custom gadgets; it has been filed under OX-15322 for the Omni dev team
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  users_locked(data = {}) {
+    // let defaults = {};
+    return this.call({
+      type: 'PUT',
+      endpoint: `/rs/users/${data.username}/locked`,
+    }, data.locked);
+  }
+
+  /**
    * Calls the [/users/me](https://developers.omniupdate.com/#!/Users/get_users_me) endpoint
    *
    * Returns user information for a specified gadget authorization token. (Level 10+ only)
    *
-   * @param data {Object} Parameters for the API call.
+   * @param {Object} data Parameters for the API call.
    * @returns {*} Response from the Omni CMS API.
    */
   users_me(data = {}) {
@@ -749,6 +854,38 @@ class OMNI_API {
     return this.call({
       type: 'GET',
       endpoint: '/users/me',
+    }, {...defaults, ...data});
+  }
+
+  /**
+   * Calls the [/users/save](https://developers.omniupdate.com/#!/Users/post_users_save) endpoint
+   *
+   * Updates user information for the specified user. If you are non-admin user, you can only update your own user information.(Level 10+ only)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  users_save(data = {}) {
+    let defaults = {};
+    return this.call({
+      type: 'POST',
+      endpoint: '/users/save',
+    }, {...defaults, ...data});
+  }
+
+  /**
+   * Calls the [/users/view](https://developers.omniupdate.com/#!/Users/get_users_view) endpoint
+   *
+   * Returns user information for the specified user. If you are non-admin user, only your own user info gets returned. (All user levels)
+   *
+   * @param {Object} data Parameters for the API call.
+   * @returns {*} Response from the Omni CMS API.
+   */
+  users_view(data = {}) {
+    let defaults = {};
+    return this.call({
+      type: 'GET',
+      endpoint: '/users/view',
     }, {...defaults, ...data});
   }
 }
