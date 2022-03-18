@@ -34,14 +34,14 @@ $(() => {
 function init() {
   gadgetModal = new GadgetModal();
 
-  api = new OMNI_API({
+  api = new OmniAPI({
     debug: false,
     logging: false,
     modal: gadgetModal,
     name: 'access_group_finder',
   });
 
-  userList = new OU_UserList({api: api});
+  userList = new OmniUserList({api: api});
 
   updateParams();
   for (let element of document.querySelectorAll('.update-params')) {

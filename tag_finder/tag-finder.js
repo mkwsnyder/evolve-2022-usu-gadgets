@@ -28,7 +28,7 @@ $(() => {
 function init() {
   gadgetModal = new GadgetModal();
 
-  api = new OMNI_API({
+  api = new OmniAPI({
     debug: false,
     logging: false,
     modal: gadgetModal,
@@ -36,7 +36,7 @@ function init() {
   });
 
   // optional
-  fileBrowser = new OU_FileBrowser({
+  fileBrowser = new OmniFileBrowser({
     api: api,
     callback: fileBrowserHandler,
     includePages: false,

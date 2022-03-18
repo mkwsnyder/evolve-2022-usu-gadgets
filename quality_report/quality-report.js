@@ -25,14 +25,14 @@ $(() => {
 
     gadgetModal = new GadgetModal();
 
-    api = new OMNI_API({
+    api = new OmniAPI({
       debug: false,
       logging: false,
       modal: gadgetModal,
       name: 'quality_report',
     });
 
-    fileBrowser = new OU_FileBrowser({
+    fileBrowser = new OmniFileBrowser({
       api: api,
       callback: fileBrowserHandler,
       includePages: false,
