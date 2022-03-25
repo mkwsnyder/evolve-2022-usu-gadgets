@@ -27,8 +27,8 @@ $(() => {
     init();
 
     document.querySelector('#loading').style.display = 'none';
-    document.querySelector('#main').style.display = 'block';
-    document.querySelector('#gadget-toolbar-container').style.display = 'block';
+    document.querySelector('#main').style.display = '';
+    document.querySelector('#gadget-toolbar-container').style.display = '';
 
   });
 });
