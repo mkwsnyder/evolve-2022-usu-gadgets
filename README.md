@@ -1,7 +1,7 @@
 # USU Gadgets for Evolve 2022
 _The Power of Omni CMS Gadgets: Making Life Easier for Your Content Editors (And Yourself)_
 
-These are (most) of the gadgets that we presented for the Evolve 2022 conference. Feel free to download them and use them yourself!
+These are (most) of the gadgets that we presented for the Evolve 2022 conference. Feel free to download them and use them yourself! You can [rewatch the presentation here](https://www.youtube.com/watch?v=H1ORfwLLGhw) and the [QA session after the presentation here](https://www.youtube.com/watch?v=Njxrd3FVfJ0).
 
 ### A couple of things to note:
 
